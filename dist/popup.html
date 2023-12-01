@@ -12,17 +12,22 @@
     <button id="mainButton" class="main-button">+ Добавить ссылку ▼</button>
     <div class="group-list" id="groupList"></div>
     <ul id="savedLinks"></ul>
+</div>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <div class="form-container">
             <label for="title">Краткое описание:</label>
-            <input type="text" id="title">
-            <label for="url">URL:</label>
-            <input type="text" id="url">
-            <label for="group">Название группы (необязательно):</label>
-            <input type="text" id="group">
-            <button id="saveButton">Сохранить</button>
+            <input type="text" id="title" required class="input-field">
+
+            <label for="url">Введите URL:</label>
+            <input type="url" id="url" required class="input-field">
+
+            <label for="group">Введите название группы (необязательно):</label>
+            <input type="text" id="group" class="input-field">
+
+            <button id="saveButton" class="save-button">Сохранить</button>
         </div>
     </div>
 </div>

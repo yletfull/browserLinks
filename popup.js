@@ -13,13 +13,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const urlInput = document.getElementById('url');
   const groupInput = document.getElementById('group');
 
-  button.addEventListener('click', function () {
+  function openModal() {
     modal.style.display = 'block';
-  });
+  }
 
-  closeModal.addEventListener('click', function () {
+  function onCloseModal() {
     modal.style.display = 'none';
-  });
+    titleInput.value = '';
+    urlInput.value = '';
+    groupInput.value = '';
+  }
+
+  button.addEventListener('click', openModal);
+  closeModal.addEventListener('click', onCloseModal);
 
   saveButton.addEventListener('click', function () {
     const title = titleInput.value.trim();
@@ -29,35 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (title && url) {
       saveLink(title, url, group);
       updateSavedLinks();
-      modal.style.display = 'none';
-    }
-  });
-
-  function getIsValidURL(inputURL) {
-    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
-    return urlPattern.test(inputURL);
-  }
-
-  button.addEventListener('click', function () {
-    let title = prompt('Краткое описание:');
-    while (!title) {
-      title = prompt('Описание не введено, повторите:');
-    }
-
-
-    let url = prompt('Введите URL:');
-    while (!getIsValidURL(url)) {
-      url = prompt('Введен некорректный URL, введите корректный URL:');
-    }
-
-    const group = prompt('Введите название группы, в которую будет входить ссылка (не обязательно):') || 'Без категории';
-
-    if (title && url) {
-      // Сохранение ссылки в localStorage
-      saveLink(title, url, group);
-
-      // Обновление списка сохраненных ссылок
-      updateSavedLinks();
+      onCloseModal();
+    } else {
+      alert('Пожалуйста, введите корректное описание и URL.');
     }
   });
 

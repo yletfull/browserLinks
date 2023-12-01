@@ -1,0 +1,123 @@
+/* popup.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 500px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.main-button {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4c77af;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.group-list {
+    margin-bottom: 10px;
+}
+
+.group-item {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    color: #4c77af;
+    text-decoration: underline;
+}
+
+ul {
+    width: 80%;
+    list-style: none;
+    padding: 0;
+}
+
+.group-item.active {
+    font-weight: bold;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.link-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.buttons-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.delete-button,
+.copy-link-button,
+.go-link-button {
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.delete-button {
+    background-color: #ff5c5c;
+    color: white;
+}
+
+.copy-link-button {
+    background-color: #4c77af;
+    color: white;
+}
+
+.go-link-button {
+    background-color: #4caf50;
+    color: white;
+    width: 80px;
+}
+
+.alert {
+    display: flex;
+    position: absolute;
+    top: -5%;
+    left: 25%;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    opacity: 0.9;
+    background-color: red;
+    color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert_hide {
+    display: none;
+}
+
+.title {
+    max-width: 45%;
+    word-break: break-all;
+}

@@ -1,15 +1,15 @@
 // popup.js
 document.addEventListener('DOMContentLoaded', function () {
-  const button = document.getElementById('myButton');
+  const button = document.getElementById('mainButton');
   const savedLinksList = document.getElementById('savedLinks');
   const groupList = document.getElementById('groupList');
   const groups = JSON.parse(localStorage.getItem('groups')) || [];
   let openGroups = JSON.parse(localStorage.getItem('openGroups')) || [];
 
   button.addEventListener('click', function () {
-    const title = prompt('Enter the title:');
-    const url = prompt('Enter the URL:');
-    const group = prompt('Enter the group (optional):');
+    const title = prompt('Краткое описание:');
+    const url = prompt('Введите URL:');
+    const group = prompt('Введите название группы, в которую будет входит ссылка (не обязательно):');
 
     if (title && url) {
       // Сохранение ссылки в localStorage
@@ -91,9 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const li = document.createElement('li');
+      const liText = document.createElement('p');
       const deleteButton = document.createElement('button');
       const copyLinkButton = document.createElement('button');
       const goLinkButton = document.createElement('button');
+      const buttonsWrapper = document.createElement('div');
 
 
       goLinkButton.classList.add('go-link-button');
@@ -109,11 +111,16 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', () => deleteLink(index));
 
-      li.textContent = `${link.title}: `;
-      li.appendChild(goLinkButton);
-      li.appendChild(copyLinkButton);
-      li.appendChild(deleteButton);
+      liText.textContent = `${link.title}: `;
+      liText.classList.add('title');
 
+      li.appendChild(liText);
+
+      buttonsWrapper.appendChild(goLinkButton);
+      buttonsWrapper.appendChild(copyLinkButton);
+      buttonsWrapper.appendChild(deleteButton);
+
+      li.appendChild(buttonsWrapper);
       savedLinksList.appendChild(li);
     });
 

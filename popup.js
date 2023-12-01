@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   button.addEventListener('click', function () {
     const title = prompt('Краткое описание:');
     const url = prompt('Введите URL:');
-    const group = prompt('Введите название группы, в которую будет входит ссылка (не обязательно):');
+    const group = prompt('Введите название группы, в которую будет входить ссылка (не обязательно):') || 'Без категории';
 
     if (title && url) {
       // Сохранение ссылки в localStorage
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (group && !groups.includes(group)) {
       groups.push(group);
       localStorage.setItem('groups', JSON.stringify(groups));
+      localStorage.setItem('openGroup', openGroups.push(group));
     }
   }
 
@@ -52,17 +53,16 @@ document.addEventListener('DOMContentLoaded', function () {
     window.open(url, '_blank');
   }
 
-
   function copyLink(url) {
     const alert = document.createElement('div');
     const text = document.createElement('p');
 
-    text.classList.add('alert__text')
+    text.classList.add('alert__text');
     alert.classList.add('alert_hide');
 
     navigator.clipboard.writeText(url)
       .then(() => {
-        text.textContent = 'Успешно скопировано'
+        text.textContent = 'Успешно скопировано';
 
         alert.classList.replace('alert_hide', 'alert_show');
         alert.appendChild(text);
@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(alert);
       })
       .catch(err => {
-        text.textContent = 'Ошибка'
+        text.textContent = 'Ошибка';
 
         alert.classList.replace('alert_hide', 'alert_show');
         alert.appendChild(text);
 
         document.body.appendChild(alert);
       }).finally(() => {
-        setTimeout(() =>  { alert.classList.replace('alert_show', 'alert_hide')}, 1000 )
+      setTimeout(() =>  { alert.classList.replace('alert_show', 'alert_hide'); }, 1000 );
     });
   }
 
@@ -85,50 +85,55 @@ document.addEventListener('DOMContentLoaded', function () {
     savedLinksList.innerHTML = '';
     const existingLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
 
-    existingLinks.forEach((link, index) => {
-      if (!openGroups.includes(link.group)) {
-        return; // Пропускаем ссылку, если группа закрыта
-      }
+    if (existingLinks.length === 0) {
+      const noLinksMessage = document.createElement('p');
+      noLinksMessage.textContent = 'Нет сохраненных записей.';
+      savedLinksList.appendChild(noLinksMessage);
+    } else {
+      existingLinks.forEach((link, index) => {
+        if (!openGroups.includes(link.group)) {
+          return; // Пропускаем ссылку, если группа закрыта
+        }
 
-      const li = document.createElement('li');
-      const liText = document.createElement('p');
-      const deleteButton = document.createElement('button');
-      const copyLinkButton = document.createElement('button');
-      const goLinkButton = document.createElement('button');
-      const buttonsWrapper = document.createElement('div');
+        const li = document.createElement('li');
+        const liText = document.createElement('p');
+        const deleteButton = document.createElement('button');
+        const copyLinkButton = document.createElement('button');
+        const goLinkButton = document.createElement('button');
+        const buttonsWrapper = document.createElement('div');
 
+        goLinkButton.classList.add('go-link-button');
+        goLinkButton.textContent = 'Go';
+        goLinkButton.addEventListener('click', () => goLink(link.url));
 
-      goLinkButton.classList.add('go-link-button');
-      goLinkButton.textContent = 'Go';
-      goLinkButton.addEventListener('click', () => goLink(link.url));
+        copyLinkButton.classList.add('copy-link-button');
+        copyLinkButton.textContent = 'Copy';
+        copyLinkButton.addEventListener('click', () => copyLink(link.url));
 
-      copyLinkButton.classList.add('copy-link-button');
-      copyLinkButton.textContent = 'Copy';
-      copyLinkButton.addEventListener('click', () => copyLink(link.url));
+        deleteButton.classList.add('delete-button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteLink(index));
 
+        liText.textContent = `${link.title}`;
+        liText.classList.add('title');
 
-      deleteButton.classList.add('delete-button');
-      deleteButton.textContent = 'Delete';
-      deleteButton.addEventListener('click', () => deleteLink(index));
+        li.appendChild(liText);
 
-      liText.textContent = `${link.title}: `;
-      liText.classList.add('title');
+        buttonsWrapper.appendChild(goLinkButton);
+        buttonsWrapper.appendChild(copyLinkButton);
+        buttonsWrapper.appendChild(deleteButton);
 
-      li.appendChild(liText);
-
-      buttonsWrapper.appendChild(goLinkButton);
-      buttonsWrapper.appendChild(copyLinkButton);
-      buttonsWrapper.appendChild(deleteButton);
-
-      li.appendChild(buttonsWrapper);
-      savedLinksList.appendChild(li);
-    });
+        li.appendChild(buttonsWrapper);
+        savedLinksList.appendChild(li);
+      });
+    }
 
     updateGroupList();
   }
 
   function updateGroupList() {
-    groupList.innerHTML = '';
+    groupList.innerHTML = '<div>Фильтр категорий:</div>';
+
     groups.forEach(group => {
       const groupItem = document.createElement('div');
       groupItem.classList.add('group-item');

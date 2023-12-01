@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function openModal() {
     modal.style.display = 'block';
+    titleInput.value = '';
+    urlInput.value = '';
+    groupInput.value = '';
   }
 
   function onCloseModal() {
@@ -127,15 +130,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const buttonsWrapper = document.createElement('div');
 
         goLinkButton.classList.add('go-link-button');
-        goLinkButton.textContent = 'Go';
+        goLinkButton.textContent = 'Переход';
         li.addEventListener('click', (e) => goLink(e, link.url));
 
         copyLinkButton.classList.add('copy-link-button');
-        copyLinkButton.textContent = 'Copy';
+        copyLinkButton.textContent = 'Копировать';
         copyLinkButton.addEventListener('click', (e) => copyLink(e, link.url));
 
         deleteButton.classList.add('delete-button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'Удалить';
         deleteButton.addEventListener('click', (e) => deleteLink(e, index));
 
         liText.textContent = `${link.title}`;

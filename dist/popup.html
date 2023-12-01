@@ -1,0 +1,89 @@
+<!-- popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Links</title>
+    <meta charset="UTF-8" />
+    <style>
+        body {
+            width: 350px;
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        .group-list {
+            margin-bottom: 10px;
+        }
+        .group-item {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+            color: #4c77af;
+            text-decoration: underline;
+        }
+        .group-item.active {
+            font-weight: bold;
+        }
+        .checkbox-group {
+            margin-bottom: 10px;
+        }
+        .checkbox-label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .delete-button {
+            cursor: pointer;
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .copy-link-button {
+            cursor: pointer;
+            background-color: #4c77af;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .go-link-button {
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 3px;
+            width: 150px;
+        }
+        .alert_show {
+            display: flex;
+            position: absolute;
+            top: -5%;
+            left: 25%;
+            width: 50%;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            opacity: 0.5;
+            background-color: red;
+        }
+        .alert_hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<button id="myButton">Add link</button>
+<div class="group-list" id="groupList"></div>
+<ul id="savedLinks"></ul>
+
+<script src="popup.js"></script>
+</body>
+</html>

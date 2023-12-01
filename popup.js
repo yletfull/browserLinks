@@ -6,9 +6,50 @@ document.addEventListener('DOMContentLoaded', function () {
   const groups = JSON.parse(localStorage.getItem('groups')) || [];
   let openGroups = JSON.parse(localStorage.getItem('openGroups')) || [];
 
+  const modal = document.getElementById('myModal');
+  const closeModal = document.getElementById('closeModal');
+  const saveButton = document.getElementById('saveButton');
+  const titleInput = document.getElementById('title');
+  const urlInput = document.getElementById('url');
+  const groupInput = document.getElementById('group');
+
   button.addEventListener('click', function () {
-    const title = prompt('Краткое описание:');
-    const url = prompt('Введите URL:');
+    modal.style.display = 'block';
+  });
+
+  closeModal.addEventListener('click', function () {
+    modal.style.display = 'none';
+  });
+
+  saveButton.addEventListener('click', function () {
+    const title = titleInput.value.trim();
+    const url = urlInput.value.trim();
+    const group = groupInput.value.trim() || 'Без категории';
+
+    if (title && url) {
+      saveLink(title, url, group);
+      updateSavedLinks();
+      modal.style.display = 'none';
+    }
+  });
+
+  function getIsValidURL(inputURL) {
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    return urlPattern.test(inputURL);
+  }
+
+  button.addEventListener('click', function () {
+    let title = prompt('Краткое описание:');
+    while (!title) {
+      title = prompt('Описание не введено, повторите:');
+    }
+
+
+    let url = prompt('Введите URL:');
+    while (!getIsValidURL(url)) {
+      url = prompt('Введен некорректный URL, введите корректный URL:');
+    }
+
     const group = prompt('Введите название группы, в которую будет входить ссылка (не обязательно):') || 'Без категории';
 
     if (title && url) {
@@ -29,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (group && !groups.includes(group)) {
       groups.push(group);
       localStorage.setItem('groups', JSON.stringify(groups));
-      localStorage.setItem('openGroup', openGroups.push(group));
+      toggleGroup(group);
     }
   }
 
@@ -44,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (deletedLink.group && existingLinks.every(link => link.group !== deletedLink.group)) {
       groups.splice(groups.indexOf(deletedLink.group), 1);
       localStorage.setItem('groups', JSON.stringify(groups));
-      localStorage.setItem('openGroups', deletedLink.group);
     }
 
     // Обновление списка сохраненных ссылок

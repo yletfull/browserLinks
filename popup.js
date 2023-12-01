@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function deleteLink(index) {
+  function deleteLink(e, index) {
+    e.stopPropagation();
+
     const existingLinks = JSON.parse(localStorage.getItem('savedLinks')) || [];
     const deletedLink = existingLinks.splice(index, 1)[0];
     localStorage.setItem('savedLinks', JSON.stringify(existingLinks));
@@ -49,11 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
     updateSavedLinks();
   }
 
-  function goLink(url) {
+  function goLink(e, url) {
     window.open(url, '_blank');
   }
 
-  function copyLink(url) {
+  function copyLink(e, url) {
+    e.stopPropagation();
+
     const alert = document.createElement('div');
     const text = document.createElement('p');
 
@@ -104,15 +108,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         goLinkButton.classList.add('go-link-button');
         goLinkButton.textContent = 'Go';
-        goLinkButton.addEventListener('click', () => goLink(link.url));
+        li.addEventListener('click', (e) => goLink(e, link.url));
 
         copyLinkButton.classList.add('copy-link-button');
         copyLinkButton.textContent = 'Copy';
-        copyLinkButton.addEventListener('click', () => copyLink(link.url));
+        copyLinkButton.addEventListener('click', (e) => copyLink(e, link.url));
 
         deleteButton.classList.add('delete-button');
         deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => deleteLink(index));
+        deleteButton.addEventListener('click', (e) => deleteLink(e, index));
 
         liText.textContent = `${link.title}`;
         liText.classList.add('title');
